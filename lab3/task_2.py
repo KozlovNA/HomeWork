@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((500, 500))
 
 
 # code
-def home(xh, yh, h):  # xh, yh - left right corner coodinates; h - similarity coefficient
+def home(xh, yh, h):  # xh, yh - left right corner coordinates; h - similarity coefficient
     rect(screen, (150, 75, 0), (xh, yh, 150 * h, 100 * h), 0)  # house
     polygon(screen, (255, 0, 0), [(xh + 150 * h / 2, yh - 100 * h / 2), (xh, yh), (xh + 150 * h, yh)], 0)  # roof
     rect(screen, (0, 191, 255), (xh + 50 * h, yh + 30 * h, 50 * h, 30 * h), 0)  # window
