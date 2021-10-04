@@ -9,6 +9,14 @@ screen = pygame.display.set_mode((500, 500))
 
 
 # code
+def background():
+    """
+    Draws the background comprising of the light-blue sky and green grass
+    """
+    rect(screen, (66, 170, 255), (0, 0, 500, 250), 0)  # sky
+    rect(screen, (0, 128, 0), (0, 250, 500, 250), 0)  # grass
+
+
 def home(xh, yh, h):
     """
     The function draws a house.
@@ -81,8 +89,7 @@ def sun(xs, ys, s, n):
 
 
 # drawing the background:
-rect(screen, (66, 170, 255), (0, 0, 500, 250), 0)  # sky
-rect(screen, (0, 128, 0), (0, 250, 500, 250), 0)  # grass
+background()
 
 # drawing the houses, trees, clouds, and the sun:
 home(50, 270, 1.25)
