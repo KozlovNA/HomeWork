@@ -13,8 +13,11 @@ def background():
     """
     Draws the background comprising of the light-blue sky and green grass
     """
-    rect(screen, (66, 170, 255), (0, 0, 500, 250), 0)  # sky
-    rect(screen, (0, 128, 0), (0, 250, 500, 250), 0)  # grass
+    sky_color = (66, 170, 255)  # color of the sky
+    grass_color = (0, 128, 0)  # color of the grass
+
+    rect(screen, sky_color, (0, 0, 500, 250), 0)  # sky
+    rect(screen, grass_color, (0, 250, 500, 250), 0)  # grass
 
 
 def home(xh, yh, h):
