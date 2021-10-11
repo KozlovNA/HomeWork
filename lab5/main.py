@@ -1,7 +1,7 @@
 import pygame
 from pygame.draw import *
 from random import randint
-import numpy
+
 pygame.init()
 
 FPS = 30
@@ -73,15 +73,14 @@ returs True if cursor is inside the ball
     return (x_circle - mouse_x) ** 2 + (y_circle - mouse_y) ** 2 < r_circle ** 2
 
 
-
-
 def click(event):
     """
     links checking cursor position with event
     """
     for ball in ball_parameters:
         (mouse_x, mouse_y) = event.pos
-        return is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2])
+        if is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2]) == True:
+            return is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2])
 
 
 ball_parameters = [new_ball() for i in range(ball_number)]
@@ -99,11 +98,10 @@ while not finished:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print('Click!')
-
             if click(event) == True:
-                    print('nice cock')
+                    print('nice click')
                     i += 1
-                    print('cock size: ', i, 'cm')
+                    print('click size: ', i, 'cm')
     ball_move()
 
 
