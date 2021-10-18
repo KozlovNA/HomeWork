@@ -46,7 +46,7 @@ def ball_move():
     4: v_x
     5: v_y
     '''
-    for j in range(ball_number):
+    for j in range(len(ball_parameters)):
         ball_parameters[j][0] += ball_parameters[j][4]
         ball_parameters[j][1] += ball_parameters[j][5]
         circle(screen, ball_parameters[j][3], (ball_parameters[j][0], ball_parameters[j][1]), ball_parameters[j][2])
@@ -80,7 +80,9 @@ def click(event):
     for ball in ball_parameters:
         (mouse_x, mouse_y) = event.pos
         if is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2]) == True:
-            return is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2])
+            temp = is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2])
+            ball_parameters.remove(ball)
+            return temp
 
 
 ball_parameters = [new_ball() for i in range(ball_number)]
@@ -105,9 +107,7 @@ while not finished:
     ball_move()
 
 
-
     pygame.display.update()
     screen.fill(BLACK)
-    n += 1
 
 pygame.quit()
