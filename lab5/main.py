@@ -7,9 +7,6 @@ pygame.init()
 FPS = 30
 screen = pygame.display.set_mode((1000, 800))
 
-W = 300
-H = 400
-
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -72,7 +69,6 @@ def is_inside(mouse_x, mouse_y, x_circle, y_circle, r_circle):
 returs True if cursor is inside the ball
     :param mouse_x: cursor x coordinate
     :param mouse_y: cursor y coordinate
-    :return:
     """
     return (x_circle - mouse_x) ** 2 + (y_circle - mouse_y) ** 2 < r_circle ** 2
 
@@ -81,11 +77,13 @@ def click(event):
     """
     links checking cursor position with event
     """
+    global ball
     for ball in ball_parameters:
         (mouse_x, mouse_y) = event.pos
         if is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2]) == True:
             temp = is_inside(mouse_x, mouse_y, ball[0], ball[1], ball[2])
             ball_parameters.remove(ball)
+            ball_parameters.append(new_ball())
             return temp
 
 
