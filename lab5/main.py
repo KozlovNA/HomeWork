@@ -7,6 +7,9 @@ pygame.init()
 FPS = 30
 screen = pygame.display.set_mode((1000, 800))
 
+W = 300
+H = 400
+
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -18,6 +21,7 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 n = 1
 i = 0
 ball_number = 5
+queen_number = 5
 
 
 def new_ball():
@@ -85,7 +89,77 @@ def click(event):
             return temp
 
 
+def new_queen():
+    '''
+    draws killer queen 160*205
+    v_x_q, v_y_q - queen's speed
+    '''
+    global x_queen, y_queen, v_x_q, v_y_q
+    x_queen = randint(50, 800)
+    y_queen = randint(50, 500)
+    v_x_q = randint(1, 2)
+    v_y_q = randint(1, 2)
+    queen_surf = pygame.image.load('killer_queen.png')
+    queen_surf.set_colorkey((255, 255, 255))
+    screen.blit(queen_surf, (x_queen, y_queen))
+    return [x_queen, y_queen, v_x_q, v_y_q]
+
+
+def queens_gambit():
+    '''
+    moves killer queen with his speed
+    0: x_queen
+    1: y_queen
+    2: v_x_q
+    3: v_y_q
+    '''
+    for j in range(len(killer_queen)):
+        killer_queen[j][0] += killer_queen[j][2]
+        killer_queen[j][1] += killer_queen[j][3]
+        queen_surf = pygame.image.load('killer_queen.png')
+        queen_surf.set_colorkey((255, 255, 255))
+        screen.blit(queen_surf, (killer_queen[j][0], killer_queen[j][1]))
+        if killer_queen[j][0] - 161 < 0:
+            killer_queen[j][2] = -killer_queen[j][2]
+            killer_queen[j][0] = killer_queen[j][0] + 1
+        elif killer_queen[j][0] + 161 > 1000:
+            killer_queen[j][2] = -killer_queen[j][2]
+            killer_queen[j][0] = killer_queen[j][0] - 1
+        elif killer_queen[j][1] - 206 < 0:
+            killer_queen[j][3] = -killer_queen[j][3]
+            killer_queen[j][1] = killer_queen[j][1] + 1
+        elif killer_queen[j][1] + 206 > 800:
+            killer_queen[j][3] = -killer_queen[j][3]
+            killer_queen[j][1] = killer_queen[j][1] - 1
+    for j in range(len(killer_queen)):
+        killer_queen[j][2] = killer_queen[j][2] + randint(-2, 2)
+        killer_queen[j][3] = killer_queen[j][3] + randint(-2, 2)
+
+
+def queen_is_inside(mouse_x, mouse_y, x_rect, y_rect):
+    """
+returs True if cursor is inside the queen
+    :param mouse_x: cursor x coordinate
+    :param mouse_y: cursor y coordinate
+    :return:
+    """
+    return (mouse_x > x_rect and mouse_x < x_rect + 160 and mouse_y > y_rect and mouse_y < y_rect + 205)
+
+
+def click_queen(event):
+    """
+    links checking cursor position with event
+    """
+    for queen in killer_queen:
+        (mouse_x, mouse_y) = event.pos
+        if queen_is_inside(mouse_x, mouse_y, queen[0], queen[1]) == True:
+            temp = queen_is_inside(mouse_x, mouse_y, queen[0], queen[1])
+            killer_queen.remove(queen)
+            return temp
+
+
 ball_parameters = [new_ball() for i in range(ball_number)]
+killer_queen = [new_queen() for i in range(queen_number)]
 
 
 pygame.display.update()
@@ -104,8 +178,12 @@ while not finished:
                     print('nice click')
                     i += 1
                     print('click size: ', i, 'cm')
+            if click_queen(event) == True:
+                    print('daisan no bakudan')
+                    i += 3
+                    print('click size: ', i, 'cm')
     ball_move()
-
+    queens_gambit()
 
     pygame.display.update()
     screen.fill(BLACK)
