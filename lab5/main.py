@@ -2,6 +2,13 @@ import pygame
 from pygame.draw import *
 from random import randint
 
+leaders = open('leaders.txt', 'a')
+print('enter your name')
+name = input()
+leaders.write('\n' + name)
+leaders.close()
+
+
 pygame.init()
 
 FPS = 30
@@ -117,13 +124,13 @@ def queens_gambit():
         queen_surf = pygame.image.load('killer_queen.png')
         queen_surf.set_colorkey((255, 255, 255))
         screen.blit(queen_surf, (killer_queen[j][0], killer_queen[j][1]))
-        if killer_queen[j][0] - 161 < 0:
+        if killer_queen[j][0] < 0:
             killer_queen[j][2] = -killer_queen[j][2]
             killer_queen[j][0] = killer_queen[j][0] + 1
         elif killer_queen[j][0] + 161 > 1000:
             killer_queen[j][2] = -killer_queen[j][2]
             killer_queen[j][0] = killer_queen[j][0] - 1
-        elif killer_queen[j][1] - 206 < 0:
+        elif killer_queen[j][1] < 0:
             killer_queen[j][3] = -killer_queen[j][3]
             killer_queen[j][1] = killer_queen[j][1] + 1
         elif killer_queen[j][1] + 206 > 800:
@@ -153,6 +160,7 @@ def click_queen(event):
         if queen_is_inside(mouse_x, mouse_y, queen[0], queen[1]) == True:
             temp = queen_is_inside(mouse_x, mouse_y, queen[0], queen[1])
             killer_queen.remove(queen)
+            killer_queen.append(new_queen())
             return temp
 
 
