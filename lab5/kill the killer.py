@@ -28,7 +28,7 @@ def new_ball(x, y, v_x, v_y):
     global r, color
     r = randint(10, 100)
     color = COLORS[randint(0, 5)]
-    circle(screen, color, (x, y), r)
+
     return [x, y, r, color, v_x, v_y]
 
 
@@ -154,17 +154,19 @@ def click_queen(event):
             return temp
 
 
-def killer_ball(event):
+def killer_ball(event, j):
     """
     spawns a ball, aimed into the coursor
+
     """
     (mouse_x, mouse_y) = event.pos
-    for j in range(len(killer_queen)):
-        new_ball(killer_queen[j][0] + 80, killer_queen[j][1] + 103,
+    new_ball(killer_queen[j][0] + 80, killer_queen[j][1] + 103,
                  5 * 1 / ((1 + ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) ** 2) ** (1 / 2)),
                  5 * ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) /
                  ((1 + ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) ** 2) ** (1 / 2)))
-
+    return [killer_queen[j][0] + 80, killer_queen[j][1] + 103,
+                randint(10, 100), COLORS[randint(0, 5)], 5 * 1 / ((1 + ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) ** 2) ** (1 / 2)), 5 * ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) /
+                 ((1 + ((mouse_y - killer_queen[j][1]) / (mouse_x - killer_queen[j][0] - 80)) ** 2) ** (1 / 2))]
 
 killer_queen = [new_queen() for i in range(queen_number)]
 
@@ -191,8 +193,11 @@ while not finished:
                     i += 3
                     print('click size: ', i, 'cm')
         elif event.type == pygame.MOUSEMOTION:
+            if n == 30:
+                ball_parameters = [killer_ball(event) for i in range(ball_number)]
             if n % 30 == 0:
-                killer_ball(event)
+                for j in range(len(killer_queen)):
+                    killer_ball(event, j)
     ball_move()
     queens_gambit()
     n+=1
