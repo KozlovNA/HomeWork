@@ -2,12 +2,8 @@ import pygame
 from pygame.draw import *
 from random import randint
 
-leaders = open('leaders.txt', 'a')
 print('enter your name')
 name = input()
-leaders.write('\n' + name)
-leaders.close()
-
 
 pygame.init()
 
@@ -177,6 +173,21 @@ while not finished:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            in_leaders = open("leaders.txt", "r")
+            leaders = in_leaders.readlines()
+            in_leaders.close()
+            out_leaders = open("leaders.txt", "w")
+            for h in range(len(leaders)):
+                leaders[h] = leaders[h].split()
+                leaders[h][0] = int(leaders[h][0])
+            leaders.append([i, name])
+            leaders.sort(reverse=True)
+            for h in range(len(leaders)):
+                text = ''
+                for j in range(len(leaders[h])):
+                    text += str(leaders[h][j]) + ' '
+                out_leaders.write(text + '\n')
+            out_leaders.close()
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print('Click!')
