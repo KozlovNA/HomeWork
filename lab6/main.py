@@ -1,6 +1,7 @@
 import math
 from random import *
 import pygame
+import numpy as np
 
 
 FPS = 30
@@ -18,6 +19,10 @@ GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 WIDTH = 800
 HEIGHT = 600
+
+pygame.font.init()
+screen = pygame.display.set_mode((640, 480))
+font = pygame.font.Font(pygame.font.get_default_font(), 36)
 
 class Ball:
     def __init__(self, screen: pygame.Surface, x=40, y=450):
@@ -49,10 +54,10 @@ class Ball:
         self.y -= self.vy
         self.vy += self.g
         if self.x - self.r < 0:
-            self.vx = -self.vx
+            self.vx = (-self.vx) * 0.8
             self.x = self.r
         elif self.x + self.r > 800:
-            self.vx = -self.vx
+            self.vx = (-self.vx) * 0.8
             self.x = 800 - self.r
         if self.y - self.r < 0:
             self.vy = -self.vy
@@ -120,17 +125,21 @@ class Gun:
 
     def draw(self):
         new_ball = Ball(self.screen)
-        pygame.draw.polygon(self.screen, self.color, [(20 - 10 * math.cos(math.pi / 2 - self.an),
-                                                       450 + 10 * math.sin(math.pi / 2 - self.an)),
-                                                      (20 - 10 * math.cos(math.pi / 2 - self.an) + 50 * math.cos(self.an),
-                                                       450 + 10 * math.sin(math.pi / 2 - self.an) + 50 * math.sin(self.an)),
-                                                      (20 + 10 * math.cos(math.pi / 2 + self.an) + 50 * math.cos(
-                                                          self.an),
-                                                       450 + 10 * math.cos(math.pi / 2 + self.an) + 50 * math.sin(
-                                                           self.an)),
-                                                      (20 + 10 * math.cos(math.pi / 2 + self.an), 450 + 10 * math.cos(math.pi / 2 + self.an))
+        pygame.draw.polygon(self.screen, self.color,
+                            [(20 + int(5 * np.cos(-self.an + 1.57)), 450 - int(5 * np.sin(-self.an + 1.57))),
+                             (20 + int(5 * np.cos(-self.an - 1.57)), 450 - int(5 * np.sin(-self.an - 1.57))),
+                             (20 + int(
+                                 np.power((30 + self.f2_power / 2) * (30 + self.f2_power / 2) + 5 * 5, 0.5) * np.cos(
+                                     -self.an - 5 / (30 + self.f2_power / 2))), 450 - int(
+                                 np.power((30 + self.f2_power / 2) * (30 + self.f2_power / 2) + 5 * 5, 0.5) * np.sin(
+                                     -self.an - 5 / (30 + self.f2_power / 2)))),
+                             (20 + int(
+                                 np.power((30 + self.f2_power / 2) * (30 + self.f2_power / 2) + 5 * 5, 0.5) * np.cos(
+                                     -self.an + 5 / (30 + self.f2_power / 2))), 450 - int(
+                                 np.power((30 + self.f2_power / 2) * (30 + self.f2_power / 2) + 5 * 5, 0.5) * np.sin(
+                                     -self.an + 5 / (30 + self.f2_power / 2))))])
 
-                                                      ])
+
 
     def power_up(self):
         if self.f2_on:
@@ -158,13 +167,13 @@ class Target():
 
     def hit(self, points=1):
         """Попадание шарика в цель."""
-        self.points += points
+        self.points += 1
         self.x = randint(600, 780)
         self.y = randint(300, 550)
         self.r = randint(2, 50)
         self.color = RED
-        self.points = 0
         self.live = 1
+
 
     def draw(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
@@ -183,6 +192,9 @@ while not finished:
     screen.fill(WHITE)
     gun.draw()
     target.draw()
+    text_surface = font.render(str(target.points), True, (0, 0, 0))
+    screen.blit(text_surface, (0, 0))
+
     for b in balls:
         b.draw()
     pygame.display.update()
