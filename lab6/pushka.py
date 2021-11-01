@@ -6,8 +6,6 @@ import numpy as np
 
 FPS = 30
 
-targets = []
-
 RED = 0xFF0000
 BLUE = 0x0000FF
 YELLOW = 0xFFC91F
@@ -17,7 +15,7 @@ CYAN = 0x00FFCC
 BLACK = (0, 0, 0)
 WHITE = 0xFFFFFF
 GREY = 0x7D7D7D
-GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
+GAME_COLORS = [BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 WIDTH = 800
 HEIGHT = 600
@@ -28,6 +26,8 @@ DOWN = 3
 UP = 4
 STOP = 0
 motion = 0
+timer = 0
+points = 0
 
 pygame.font.init()
 screen = pygame.display.set_mode((640, 480))
@@ -170,23 +170,24 @@ class Gun:
 
 class Target():
 
-    def __init__(self):
+    def __init__(self, screen: pygame.Surface):
         """ Инициализация новой цели. """
-        self.x = randint(600, 780)
-        self.y = randint(300, 550)
-        self.r = randint(2, 50)
+        self.screen = screen
+        self.x = randint(20, 780)
+        self.y = randint(50, 550)
+        self.r = randint(10, 50)
         self.color = RED
         self.points = 0
         self.live = 1
         self.vx = randint(-2, 2)
         self.vy = randint(-2, 2)
+        self.timer = 300
 
 
     def hit(self, points=1):
         """Попадание шарика в цель."""
-        self.points += 1
-        self.x = randint(600, 780)
-        self.y = randint(300, 550)
+        self.x = randint(20, 780)
+        self.y = randint(50, 550)
         self.r = randint(2, 50)
         self.color = RED
         self.live = 1
@@ -218,22 +219,26 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 balls = []
+targets = []
+
+for t in range(4):
+    targets.append(Target(screen))
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target()
 finished = False
 
 while not finished:
     screen.fill(WHITE)
     gun.draw()
-    target.draw()
-    target.move()
-    text_surface = font.render(str(target.points), True, (0, 0, 0))
+    text_surface = font.render('your points: ' + str(points), True, (0, 0, 0))
     screen.blit(text_surface, (0, 0))
+    timer += 1
 
     for b in balls:
         b.draw()
+    for t in targets:
+        t.draw()
     pygame.display.update()
 
     clock.tick(FPS)
@@ -256,8 +261,7 @@ while not finished:
             elif event.key == pygame.K_s:
                 motion = DOWN
         elif event.type == pygame.KEYUP:
-            if event.key in [pygame.K_a,
-                         pygame.K_d, pygame.K_w, pygame.K_s]:
+            if event.key in [pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s]:
                 motion = STOP
     if motion == LEFT:
         gun.x -= 3
@@ -272,9 +276,18 @@ while not finished:
         b.move()
         if b.timer <= 0:
             balls.remove(b)
-        if b.hittest(target) and target.live:
-            target.live = 0
-            target.hit()
+        for target in targets:
+            if b.hittest(target) and target.live:
+                target.live = 0
+                target.hit()
+                points += 1
+
+
+    for t in targets:
+        t.move()
+        if t.timer <= 0:
+            targets.remove(t)
+
     gun.power_up()
 
 pygame.quit()
