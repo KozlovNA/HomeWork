@@ -163,6 +163,8 @@ class Target():
         self.color = RED
         self.points = 0
         self.live = 1
+        self.vx = randint(-2, 2)
+        self.vy = randint(-2, 2)
 
 
     def hit(self, points=1):
@@ -173,6 +175,26 @@ class Target():
         self.r = randint(2, 50)
         self.color = RED
         self.live = 1
+        self.vx = randint(-2, 2)
+        self.vy = randint(-2, 2)
+
+
+    def move(self):
+        self.x += self.vx
+        self.y -= self.vy
+        if self.x - self.r < 0:
+            self.vx = -self.vx
+            self.x = self.r
+        elif self.x + self.r > 800:
+            self.vx = -self.vx
+            self.x = 800 - self.r
+        if self.y - self.r < 0:
+            self.vy = -self.vy
+            self.y = self.r
+        elif self.y + self.r > 600:
+            self.vy = -self.vy
+            self.y = 600 - self.r
+
 
 
     def draw(self):
@@ -192,6 +214,7 @@ while not finished:
     screen.fill(WHITE)
     gun.draw()
     target.draw()
+    target.move()
     text_surface = font.render(str(target.points), True, (0, 0, 0))
     screen.blit(text_surface, (0, 0))
 
