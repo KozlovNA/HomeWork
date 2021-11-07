@@ -6,6 +6,8 @@ import numpy as np
 
 FPS = 30
 
+targets = []
+
 RED = 0xFF0000
 BLUE = 0x0000FF
 YELLOW = 0xFFC91F
@@ -152,9 +154,6 @@ class Gun:
 
 class Target():
 
-    # FIXME: don't work!!! How to call this functions when object is created?
-    # self.new_target()
-
     def __init__(self):
         """ Инициализация новой цели. """
         self.x = randint(600, 780)
@@ -195,10 +194,9 @@ class Target():
             self.vy = -self.vy
             self.y = 600 - self.r
 
-
-
     def draw(self):
         pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
+
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
