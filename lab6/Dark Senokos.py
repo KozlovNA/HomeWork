@@ -17,6 +17,8 @@ motion = 0
 timer = 0
 points = 0
 
+player = input('Введите ваше имя:')
+
 C = pygame.image.load('C++.png')
 C.set_colorkey((255, 255, 255))
 Pyton = pygame.image.load('pyton.png')
@@ -177,11 +179,11 @@ class Target():
         self.Safin = pygame.image.load('Dim_Dimych.png')
         screen.blit(pygame.transform.scale(self.Safin, (self.r, self.r)), (self.x, self.y))
 
-pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 progi = []
 targets = []
+play_time = 900
 
 pygame.mixer.music.load('zhopa.mp3')
 pygame.mixer.music.play()
@@ -199,6 +201,8 @@ while not finished:
     gun.draw()
     text_surface = font.render('Отчислено: ' + str(points), True, (0, 0, 0))
     screen.blit(text_surface, (0, 0))
+    text_surface2 = font.render('Осталось жить:' + str((play_time + 30 - timer) // 30) + ' c', True, (0, 0, 0))
+    screen.blit(text_surface2, (0, 40))
     timer += 1
 
     for b in progi:
@@ -209,6 +213,8 @@ while not finished:
 
     clock.tick(FPS)
     for event in pygame.event.get():
+        if timer >= play_time:
+            finished = True
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -249,12 +255,26 @@ while not finished:
                 points += 1
                 hitsound.play()
 
-
-
-
     for t in targets:
         t.move()
 
     gun.power_up()
 
-pygame.quit()
+end = pygame.image.load('kozheva.jpg')
+screen.blit(pygame.transform.scale(end, (800, 600)), (0, 0))
+text_surface = font.render('Итого отчислено: ' + str(points), True, (255, 255, 255))
+screen.blit(text_surface, (275, 200))
+pygame.display.update()
+f = open('leaderbord.txt', 'a')
+f.write(player + ' ' + str(points) + '\n')
+f.close()
+
+pygame.display.update()
+clock = pygame.time.Clock()
+finished = False
+
+while not finished:
+    clock.tick(FPS)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            finished = True
