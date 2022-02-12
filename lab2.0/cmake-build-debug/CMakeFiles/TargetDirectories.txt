@@ -1,0 +1,16 @@
+D:/lab2.0/cmake-build-debug/CMakeFiles/2.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/lab2_0.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/1.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/3.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/4.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/5.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/6.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/7.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/8.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/9.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/10.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/11.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/12.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/13.dir
+D:/lab2.0/cmake-build-debug/CMakeFiles/edit_cache.dir
