@@ -1,0 +1,9 @@
+D:/DynamicProg/cmake-build-debug/CMakeFiles/VideoGame.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/DynamicProg.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/main.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/WhitePawn.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/LIS.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/poligon.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/NailsNRopes.dir
+D:/DynamicProg/cmake-build-debug/CMakeFiles/rebuild_cache.dir
